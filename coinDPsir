@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+vector<int> coin;
+#define INF 100000
+int n;
+int W; // number of coins.
+vector<int> combination; // Store the current combination
+vector<vector<int>> combinations; // Store all valid combinations
+
+void printCombination() {
+    for (int i = 0; i < combination.size(); i++) {
+        cout << combination[i];
+        if (i < combination.size() - 1) cout << " + ";
+    }
+    cout << endl;
+}
+
+void F(int position, int current_sum) {
+    if (current_sum == W) {
+        combinations.push_back(combination);
+        printCombination();
+        return;
+    }
+    if (position == n || current_sum > W) {
+        return;
+    }
+
+    // Include the current coin in the combination
+    combination.push_back(coin[position]);
+    F(position + 1, current_sum + coin[position]);
+    combination.pop_back(); // Remove the last coin to explore other options
+    F(position + 1, current_sum);
+}
+
+int main() {
+    coin = {1, 4, 5};
+    n = 3;
+    W = 5;
+
+    F(0, 0);
+ if(combinations.empty()) cout<<-1<<endl;
+
+    return 0;
+}
