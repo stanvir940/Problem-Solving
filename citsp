@@ -1,0 +1,44 @@
+#include <iostream>
+#include<bits/stdc++.h>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+const int INF = INT_MAX;
+
+const int N = 4; // Number of cities
+
+// Function to solve TSP using brute force
+double tsp(vector<int>& path, int graph[][N], int pos, int visited) {
+    if (visited == (1 << N) - 1) {
+        return graph[pos][0]; // Return to the starting city
+    }
+
+    double ans = INF;
+
+    for (int next = 0; next < N; next++) {
+        if (visited & (1 << next)) continue; // Skip visited cities
+
+        double newDist = graph[pos][next] + tsp(path, graph, next, visited | (1 << next));
+        ans = min(ans, newDist);
+    }
+
+    return ans;
+}
+
+int main() {
+    vector<int> path(N);
+    iota(path.begin(), path.end(), 0); // Initialize path as 0, 1, 2, ..., N-1
+
+    int graph[][N] = { { 0, 10, 15, 20 },
+                       { 10, 0, 35, 25 },
+                       { 15, 35, 0, 30 },
+                       { 20, 25, 30, 0 } };
+
+    double minDist = tsp(path, graph, 0, 1);
+    cout << "Minimum Distance: " << minDist << endl;
+
+    return 0;
+}
