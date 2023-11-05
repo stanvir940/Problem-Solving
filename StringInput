@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <algorithm> 
+
+using namespace std;
+
+int main() {
+    string equation = "2x^2 + 3x - 5";
+
+    
+    equation.erase(remove_if(equation.begin(), equation.end(), ::isspace), equation.end());
+
+    istringstream equationStream(equation);
+    char plusMinus;
+    int a = 0, b = 0, c = 0;
+
+    equationStream >> a; // Coefficient of x^2
+    equationStream >> plusMinus; // + or -
+    equationStream >> plusMinus; // 'x'
+    equationStream >> plusMinus; // '^'
+    equationStream >> b; // Coefficient of x
+
+    // Check if there's a third term (constant term)
+    if (equationStream >> plusMinus >> c) {
+        // If there's a constant term
+    } else {
+        // If there's no constant term
+        c = 0;
+    }
+
+    cout << "Coefficient of x^2: " << a << endl;
+    cout << "Coefficient of x: " << b << endl;
+    cout << "Constant term: " << c << endl;
+
+    return 0;
+}
