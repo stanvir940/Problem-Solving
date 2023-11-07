@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+int cnt=0;
+void printCoins(vector<int>& combination) {
+    for (int i = 0; i < combination.size(); i++) {
+        cout << combination[i];
+        
+        if (i < combination.size() - 1) cout << " + ";
+    }
+    cnt++;
+    cout << endl;
+}
+
+void countCoins(int coins[], int n, int sum, vector<int>& combination) {
+    if (sum == 0) {
+        printCoins(combination);
+        return;
+    }
+
+    if (sum < 0 || n <= 0) {
+        return;
+    }
+
+    // Include the current coin in the combination
+    combination.push_back(coins[n - 1]);
+    countCoins(coins, n, sum - coins[n - 1], combination);
+    
+    // Remove the last coin to explore other options
+    combination.pop_back();
+    countCoins(coins, n - 1, sum, combination);
+}
+
+int main() {
+    int coins[] = {1, 2, 3};
+    int n = sizeof(coins) / sizeof(coins[0]);
+    int sum = 4;
+
+    vector<int> combination;
+    countCoins(coins, n, sum, combination);
+    cout<<cnt<<endl;
+
+    return 0;
+}
